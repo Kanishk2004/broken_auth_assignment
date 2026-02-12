@@ -3,7 +3,6 @@ const cookieParser = require('cookie-parser');
 const jwt = require('jsonwebtoken');
 const requestLogger = require('./middleware/logger');
 const authMiddleware = require('./middleware/auth');
-const { generateToken } = require('./utils/tokenGenerator');
 
 const app = express();
 const PORT = process.env.PORT || 3000;
