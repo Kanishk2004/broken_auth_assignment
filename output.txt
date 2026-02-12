@@ -1,0 +1,42 @@
+=== Task 1: Login ===
+Command:
+curl -X POST http://localhost:3000/auth/login \
+  -H "Content-Type: application/json" \
+  -d '{"email":"kanishkchandna29@gmail.com","password":"password1234"}'
+
+Output:
+{"message":"OTP sent","loginSessionId":"bk3zd"}
+
+Bug Fixed: Added next() in the logger.js middleware file and logged OTP to console
+
+=== Task 2: Verify OTP ===
+Command:
+curl -c cookies.txt -X POST http://localhost:3000/auth/verify-otp \
+  -H "Content-Type: application/json" \
+  -d '{"loginSessionId":"bk3zd","otp":"218050"}'
+
+Output:
+{"message":"OTP verified","sessionId":"bk3zd"}
+
+Bug Fixed: Added cookieParser() as middleware in the application
+
+=== Task 3: Get Token ===
+Command:
+curl -b cookies.txt -X POST http://localhost:3000/auth/token
+
+Output:
+{"access_token":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImthbmlzaGtjaGFuZG5hMjlAZ21haWwuY29tIiwic2Vzc2lvbklkIjoiYmszemQiLCJpYXQiOjE3NzA4ODc3NTAsImV4cCI6MTc3MDg4ODY1MH0.TKKwR20px2pfBpMFGJtpO6nkhWa3Ey_G32Z7NYSAdvE","expires_in":900}
+
+Bug Fixed: Changed to read session_token from cookies instead of headers
+
+=== Task 4: Access Protected Route ===
+Command:
+curl -H "Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImthbmlzaGtjaGFuZG5hMjlAZ21haWwuY29tIiwic2Vzc2lvbklkIjoiYmszemQiLCJpYXQiOjE3NzA4ODc3NTAsImV4cCI6MTc3MDg4ODY1MH0.TKKwR20px2pfBpMFGJtpO6nkhWa3Ey_G32Z7NYSAdvE" http://localhost:3000/protected
+
+Output:
+{"message":"Access granted","user":{"email":"kanishkchandna29@gmail.com","sessionId":"bk3zd","iat":1770887750,"exp":1770888650},"success_flag":"FLAG-a2FuaXNoa2NoYW5kbmEyOUBnbWFpbC5jb21fQ09NUExFVEVEX0FTU0lHTk1FTlQ="}
+
+Bug Fixed: Added next() in the auth.js middleware file after successful JWT verification
+
+=== SUCCESS FLAG ===
+FLAG-a2FuaXNoa2NoYW5kbmEyOUBnbWFpbC5jb21fQ09NUExFVEVEX0FTU0lHTk1FTlQ=
